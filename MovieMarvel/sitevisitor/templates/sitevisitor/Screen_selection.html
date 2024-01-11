@@ -1,0 +1,74 @@
+{% extends 'sitevisitor/base.html' %}
+{% block title %}
+MovieMarvel
+{% endblock %}
+{% block content %}
+<header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <form method="post" action="" id="movieBookingForm">
+                            {% csrf_token %}
+                    <h1 style="margin-top:10%;">Movies in Theaters</h1>
+                        <label>screen</label>
+                     <select name="screen">
+                         {% for i in screens %}
+                         <option value="{{i.screen_name}}">{{i.screen_name}}</option>
+                         {% endfor %}
+                     </select>
+                      <label>Language</label>
+                        <select name="lang">
+                            <option value="Tamil">Tamil</option>
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Hindi">Malayalam</option>
+                        </select>
+
+
+                      <label for="time">time</label>
+                        <select name="time" id="time">
+                            <option value="12:30">12:30 PM</option>
+                            <option value="6:00">6:00 PM</option>
+                            <option value="23:56">11:56 AM</option>
+                        </select>
+                            <label for="date">date</label>
+                        <input type="date" name="date" id="date">
+
+                            <br><br>
+
+                        <button class="btn btn-primary">Submit</button>
+                        </form>
+                 </div>
+                </div>
+            </header>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function submitForm() {
+        var selectedScreen = $("#screenSelect").val();
+        var actionUrl = "{% url 'sitevisitor:movie_booking' screen_name='selected_screen' %}".replace('selected_screen', selectedScreen);
+        $("#movieBookingForm").attr("action", actionUrl);
+        $("#movieBookingForm").submit();
+    }
+
+
+    function checkDateTimeValidity() {
+        var selectedDate = new Date(document.getElementById('date').value);
+        var selectedTime = document.getElementById('time').value;
+
+        var currentDate = new Date();
+        var currentHours = currentDate.getHours();
+        var currentMinutes = currentDate.getMinutes();
+        var currentTime = currentHours + ':' + (currentMinutes < 10 ? '0' : '') + currentMinutes;
+        console.log(currentTime, selectedTime)
+
+        if (selectedDate.toDateString() === currentDate.toDateString() && selectedTime <= currentTime) {
+            alert("All show timings are passed :). Please select a different date or time.");
+            document.getElementById('date').value = '';
+            document.getElementById('time').value = '';
+        }
+    }
+    document.getElementById('date').addEventListener('change', checkDateTimeValidity);
+    document.getElementById('time').addEventListener('change', checkDateTimeValidity);
+</script>
+
+{% endblock %}

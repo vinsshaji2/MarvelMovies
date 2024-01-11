@@ -1,0 +1,88 @@
+{% extends 'sitevisitor/base.html' %}
+{% block title %}
+MovieMarvel
+{% endblock %}
+{% block content %}
+{% load static %}
+<header class="site-header d-flex flex-column justify-content-center align-items-center"
+        xmlns="http://www.w3.org/1999/html">
+<div class="container-fluid">
+		<div class="left_1">
+			<h3 style="margin-top:20%;">BILLING ADDRESS</h3>
+			<h5>Total Amount:{{total_amount}} </h5>
+			<form method="POST" action="{% url 'sitevisitor:payment' %}">
+				{% csrf_token %}
+				Full name
+				<input type="text" name="name" placeholder="Enter name" required>
+				Email
+				<input type="text" name="email" placeholder="Enter email" required>
+				Phone
+				<input type="text" name="phone" placeholder="Enter Phone Number" required>
+
+				Accepted Card <br>
+				<img src="{% static 'sitevisitor/images/card1.png' %}" width="100">
+				<img src="{% static 'sitevisitor/images/card2.png' %}" width="50">
+				<br><br>
+				Bank Name
+
+				<select name="bank">
+					{% for bank in bank_choice %}
+					<option value="{{bank.1}}">{{bank.1}}</option>
+					{% endfor %}
+				</select>
+				Account Number
+				<input type="text" name="account_no" placeholder="Enter Account Number" required>
+
+
+				Credit card number
+			<input type="text" name="card_no" placeholder="Enter card number" required>
+				ifsc code
+			<input type="text" name="ifsc" placeholder="Enter ifsc number" required>
+
+
+						Exp year
+						<select name="exp_year" required>
+							<option>2024</option>
+							<option>2025</option>
+							<option>2026</option>
+							<option>2027</option>
+							<option>2028</option>
+						</select>
+						Exp Month
+						<select name="month" required>
+							{% for month in month_choice %}
+							<option value="{{month.1}}">{{month.1}}</option>
+							{% endfor %}
+						</select>
+
+
+						CVV
+						<input type="text" name="cvv" placeholder="CVV" required>
+				<input type="submit" name="" value="Proceed to Checkout">
+			</form>
+		</div>
+	</div>
+	{% if saved_successfully %}
+    <script>
+		alert("You will receive the confirmation mail soon! Please give you valueble feedback. Thank You Do visit Again!")
+	</script>
+	<a href="{% url 'sitevisitor:feedback' %}"><button class="btn btn-primary" type="button">Feedback</button></a>
+    {% endif %}
+
+<!--	{% if data %}-->
+<!--	<script>-->
+<!--		alert("You will receive the confirmation mail soon! Please give you valueble feedback after your Movie. Thank You Do visit Again!")-->
+<!--	</script>-->
+<!--	{% endif %}-->
+
+{% if error_msg %}
+<script>
+
+	alert("Oops! Phone number {{ phone }} already exists in the database!");
+</script>
+{% endif %}
+
+</header>
+
+
+{% endblock %}

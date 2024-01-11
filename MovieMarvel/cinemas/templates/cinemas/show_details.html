@@ -1,0 +1,113 @@
+{% extends 'cinemas/base.html' %} {% block title %}{% endblock %}
+{% block content %}
+<header
+  class="site-header d-flex flex-column justify-content-center align-items-center"
+>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 col-12">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Homepage</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+              Show Details
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="text-white">SHOW DETAILS</h4>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section-padding section-bg">
+  <div class="container">
+       <div class="row g-5 mb-3">
+            <div class="col-sm-8 col-md-8 col-lg-8"> </div>
+
+          <div class="col-sm- 4 col-md-4 col-lg-4">
+              <form
+          method="post"
+          action="{% url 'add_show_details'%}"
+          class="custom-form contact-form"
+        >
+          {% csrf_token %}
+           <button type="submit" class="btn btn-success">
+                        ADD NEW SHOW
+                      </button>
+           </form>
+          </div>
+        </div>
+    <div class="row">
+      <div class="card">
+
+        <div class="card-body">
+
+          <h4 class="card-title">Show Details</h4>
+          <p class="card-description">View shows and its details</p></div>
+
+
+          <div class="template-demo">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Show Timing</th>
+                  <th>Movie</th>
+
+                  <th colspan="2" class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for show in shows %}
+                <tr>
+                  <td>{{show.show_id}}</td>
+                  <td>{{show.show_timing}}</td>
+                    {% for actor in show.movie.all %}
+                  <td>{{actor.movie_name}}</td>
+                    {% endfor %}
+                  <td>
+<!--                    <form method="POST" action="">-->
+<!--                      {% csrf_token %}-->
+<!--                      <input-->
+<!--                        type="hidden"-->
+<!--                        value="{{ show.show_id }}"-->
+<!--                        name="show_id"-->
+<!--                        id="show_id"-->
+<!--                      />-->
+<!--                      <button type="submit" class="btn btn-primary ">-->
+<!--                        EDIT-->
+<!--                      </button>-->
+<!--                    </form>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <form-->
+<!--                      method="POST"-->
+<!--                      action=""-->
+<!--                    >-->
+<!--                      {% csrf_token %}-->
+<!--                      <input-->
+<!--                        type="hidden"-->
+<!--                        value="{{ show.show_id }}"-->
+<!--                        name="show_id"-->
+<!--                        id="show_id"-->
+<!--                      />-->
+<!--                      <button type="submit" class="btn btn-danger">-->
+<!--                        DELETE-->
+<!--                      </button>-->
+<!--                    </form>-->
+                  </td>
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

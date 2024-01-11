@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
+..............................................................................
+
+{% extends 'sitevisitor/base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+ <header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-5 col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Homepage</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">Contact Form</li>
+                                </ol>
+                            </nav>
+
+                            <h2 class="text-white">Contact Form</h2>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+            <section class="section-padding section-bg">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12">
+                            <h3 class="mb-4 pb-2">We'd love to hear from you</h3>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <!-- Your form goes here -->
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </section>
+{% endblock %}
+..............................................................................
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add New
+Movie {% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">MovieList</h4>
+    <p class="card-description">View movies and its details</p>
+    <div class="template-demo">
+     
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+....................................................................................

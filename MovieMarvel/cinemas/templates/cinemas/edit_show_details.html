@@ -1,0 +1,73 @@
+{% extends 'cinemas/base.html' %} {% block title %}{% endblock %}
+{% block content %}
+<header
+  class="site-header d-flex flex-column justify-content-center align-items-center"
+>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 col-12">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Homepage</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="text-white">EDIT SHOW DETAILS </h4>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section-padding section-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-12">
+        <h3 class="mb-4 pb-2">Edit Show Details</h3>
+      </div>
+
+      <div class="col-lg-6 col-12">
+        <form
+          method="post"
+          action="{% url 'edit_show_details'%}"
+          enctype="multipart/form-data"
+          class="custom-form contact-form"
+          role="form"
+        >
+          {% csrf_token %}
+          <div class="row">
+            {% for field in form %}
+
+            <div class="col-md-6">
+              {{ field.label_tag }} {{ field }}{% if field.errors %}
+              <ul class="errorlist">
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+
+            {% endfor %}
+
+            <div class="col-12 g-3">
+              <input
+                        type="hidden"
+                        value="{{ show.show_id }}"
+                        name="show_id"
+                        id="show_id"
+                      />
+              <button type="submit" class="btn btn-primary w-100 py-3">
+                UPDATE SHOW DETAILS
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

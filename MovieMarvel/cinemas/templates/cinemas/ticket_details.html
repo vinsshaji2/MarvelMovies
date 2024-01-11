@@ -1,0 +1,110 @@
+{% extends 'cinemas/base.html' %} {% block title %}{% endblock %}
+{% block content %}
+<header
+  class="site-header d-flex flex-column justify-content-center align-items-center"
+>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5 col-12">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Homepage</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">
+              Screen Details
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="text-white">TICKET DETAILS</h4>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section-padding section-bg">
+  <div class="container">
+       <div class="row g-5 mb-3">
+            <div class="col-sm-8 col-md-8 col-lg-8"> </div>
+
+          <div class="col-sm- 4 col-md-4 col-lg-4">
+              <form
+          method="post"
+          action="{% url 'ticket_details'%}"
+          class="custom-form contact-form"
+        >
+          {% csrf_token %}
+           <button type="submit" class="btn btn-success">
+                        TICKET DETAILS
+                      </button>
+           </form>
+          </div>
+        </div>
+    <div class="row">
+      <div class="card">
+
+        <div class="card-body">
+
+          <h4 class="card-title">Ticket Details</h4>
+          <p class="card-description">View ticket and its details</p></div>
+
+
+          <div class="template-demo">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Ticket_type</th>
+                  <th>rate</th>
+
+                  <th colspan="2" class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                  <td>{{ticket.ticket_id}}</td>
+                  <td>{{ticket.ticket_type}}</td>
+                  <td>{{ticket.rate}}</td>
+                  <td>
+                    <form method="POST" action="{% url 'ticket_details'%}">
+                      {% csrf_token %}
+                      <input
+                        type="hidden"
+                        value="{{ ticket.ticket_id }}"
+                        name="ticket_id"
+                        id="ticket_id"
+                      />
+                      <button type="submit" class="btn btn-success">
+                        EDIT
+                      </button>
+                    </form>
+                  </td>
+                  <td>
+                    <form
+                      method="POST"
+                      action="{% url 'delete_ticket_details' %}"
+                    >
+                      {% csrf_token %}
+                      <input
+                        type="hidden"
+                        value="{{ ticket.ticket_id }}"
+                        name="ticket_id"
+                        id="ticket_id"
+                      />
+                      <button type="submit" class="btn btn-danger">
+                        DELETE
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

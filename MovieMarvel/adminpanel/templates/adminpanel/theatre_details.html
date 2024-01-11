@@ -1,0 +1,229 @@
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add New
+Movie {% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">MovieList</h4>
+    <p class="card-description">View movies and its details</p>
+    <div class="template-demo">
+     <div class="card">
+  <div class="card-body p-4">
+    <div class="card">
+      <h5 class="card-header">Theatre Details</h5>
+      <div class="card-body">
+        <div class="row">
+          
+          <div class="col-md-12">
+            <div class="row pt-3">
+              <div class="col-sm-6">
+                <p class="card-text">Name of the Theatre</p>
+              </div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">
+                  {{ theatre.user.first_name}}&nbsp;{{theatre.user.last_name}}
+                </p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Email</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.user.email}}</p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Username</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">
+                  {{ theatre.user.username}}
+                </p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Address</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.address}}</p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Place</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.place}}</p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">State</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.state}}</p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Status</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.status}}</p>
+              </div>
+            </div>
+            <div class="row pt-3">
+              <div class="col-sm-6"><p class="card-text">Phone</p></div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">{{ theatre.phone}}</p>
+              </div>
+            </div>
+            
+            <div class="row pt-3">
+              <div class="col-sm-6">
+                <p class="card-text">License Number</p>
+              </div>
+              <div class="col-sm-6">
+                <p class="card-text text-primary">
+                  {{ theatre.license_number}}
+                </p>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9">
+            <button type="submit" class="btn btn-primary" id="myModalBtn">
+              Verify Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">VERIFY DETAILS</h4>
+        <button
+          type="button"
+          class="close btn btn-outline-primary"
+          data-dismiss="modal"
+        >
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="container-fluid">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  
+                  <div class="col-md-12">
+                    <h5 class="card-title fw-semibold mb-4">ID Proof</h5>
+                    <div class="card">
+                      <img
+                        src="{{ theatre.pancard.url}}"
+                        class="card-img-top"
+                        alt="..."
+                      />
+                      <div class="card-body">
+                      <h5 class="card-title">License Details</h5>
+                      <p class="card-text">License Number&nbsp;:&nbsp;&nbsp;&nbsp;
+                        {{theatre.license_number}}</p>
+                   
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4"></div>
+                  <div class="col-sm-8">
+                    {% if theatre.status == "Active" %}
+                    <form method="POST" action="{% url 'theatre_status' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">
+                        DEACTIVATE
+                      </button>
+                      <input
+                        type="hidden"
+                        value="Inactive"
+                        name="status"
+                        id="status"
+                      />
+                      <input
+                        type="hidden"
+                        value="{{ theatre.theatre_id }}"
+                        name="theatre_id"
+                        id="theatre_id"
+                      />
+                    </form>
+
+                    {% else %}
+                    <form method="POST" action="{% url 'theatre_status' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">
+                        ACTIVATE
+                      </button>
+                      <input
+                        type="hidden"
+                        value="Active"
+                        name="status"
+                        id="status"
+                      />
+                      <input
+                        type="hidden"
+                        value="{{ theatre.theatre_id }}"
+                        name="theatre_id"
+                        id="theatre_id"
+                      />
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Your custom script to trigger the modal -->
+<script>
+  // Wait for the document to be ready
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the modal element
+    var myModal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var myModalBtn = document.getElementById("myModalBtn");
+
+    // When the user clicks the button, open the modal
+    myModalBtn.addEventListener("click", function () {
+      myModal.style.display = "block";
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.addEventListener("click", function (event) {
+      if (event.target == myModal) {
+        myModal.style.display = "none";
+      }
+    });
+
+    // When the user clicks the close button, close the modal
+    var closeModalBtn = document.querySelector(".modal-header .close");
+    closeModalBtn.addEventListener("click", function () {
+      myModal.style.display = "none";
+    });
+
+    // When the user presses the Escape key, close the modal
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        myModal.style.display = "none";
+      }
+    });
+  });
+</script>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

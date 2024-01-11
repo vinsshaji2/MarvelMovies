@@ -1,0 +1,82 @@
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add New
+Movie {% endblock %} {% block content %}
+  <style>
+/*    body {*/
+/*      font-family: 'Arial', sans-serif;*/
+/*      background-color: #f4f4f4;*/
+/*      margin: 0;*/
+/*      padding: 0;*/
+/*      display: flex;*/
+/*      justify-content: center;*/
+/*      align-items: center;*/
+/*      height: 100vh;*/
+/*    }*/
+
+    .feedback-container {
+      max-width: 600px;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .feedback-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .feedback-item h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .feedback-item p {
+      margin-bottom: 0;
+      color: #666;
+    }
+
+    .feedback-item .timestamp {
+      font-size: 0.8em;
+      color: #999;
+    }
+
+    .rating {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .star {
+      color: #FFD700;
+      font-size: 1.2em;
+      margin-right: 5px;
+    }
+  </style>
+<div class="feedback-container">
+  {% for feed in feedback %}
+  <div class="feedback-item">
+    <h5>{{feed.customer_name}}</h5>
+    <div class="rating">
+        {% for _ in feed.rating %}
+      <span class="star">★</span>
+      {% endfor %}
+    </div>
+    <p>{{feed.feed_message}}</p>
+    <p class="timestamp">{{feed.date}}</p>
+
+    <form method="post" action="{% url 'feedback_view' %}" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="feedback_id" value="{{ feed.feed_id }}">
+        <button class="btn btn-primary"   type="submit">Delete</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

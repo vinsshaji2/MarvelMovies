@@ -1,0 +1,48 @@
+{% extends 'sitevisitor/base.html' %}
+{% load static %}
+{% block title %}
+MovieMarvel
+{% endblock %}
+{% block content %}
+  <section class="hero-section">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-12">
+                        <div class="text-center mb-5 pb-2">
+                            <h1 class="text-white">ENJOY WITH LOVED ONES!</h1>
+
+                            <p class="text-white">Select the new One and Blast!.</p>
+
+<!--                            <a href="#section_2" class="btn custom-btn smoothscroll mt-3">Start listening</a>-->
+                        </div>
+
+                        <div class="owl-carousel owl-theme">
+                          {% for movie_info in movies_in_theaters %}
+                            <div class="owl-carousel-info-wrap item">
+                                    {% if movie_info.movie_poster %}
+                                <a href="{% url 'sitevisitor:screen' theater_id=movie_info.theater_id %}"><img src="{{ movie_info.movie_poster }}" alt="{{ movie_info.movie_name }} Poster"  style="height: 600px;" class="img-fluid" ></a>
+                            {% else %}
+                                <p class="movie-name">No poster available</p>
+                            {% endif %}
+                               
+
+                                <div class="owl-carousel-info">
+                                    <h2 class="movie-name">{{ movie_info.movie_name }}</h2>
+                                    <p class="movie-name">Theaters: {{ movie_info.theaters }}</p>
+
+                                   
+                                </div>
+
+                               
+                            </div>
+ {% endfor %}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

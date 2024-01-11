@@ -1,0 +1,170 @@
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add Customer
+Details {% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Customer Details</h4>
+    <p class="card-description">Customers and details</p>
+    <div class="template-demo">
+      <div class="row">
+                    <div class="col-md-12">
+                       <div class="card">
+                <div class="card-body p-4">
+                  <div class="card">
+                      <h5  class="card-header">Customer Details</h5 >
+                      <div class="card-body">
+                        
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Name of the Customer</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.user.first_name}}&nbsp;{{ customer.user.last_name}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text">Email</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.user.email}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Username</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.user.username}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Address</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.address}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Place</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.place}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">State</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.state}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Status</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.status}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-6"><p  class="card-text ">Phone</p ></div>
+                          <div class="col-sm-6"><p class="card-text text-primary">{{ customer.phone}}</p></div>
+                        </div>
+                        <div class="row pt-3">
+                          <div class="col-sm-3"></div>
+                          <div class="col-sm-9">
+                        <button type="submit" class="btn btn-primary" id="myModalBtn">
+                      Verify Details
+                      </button>
+                      </div>
+                        </div>
+                        
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-primary">Verify Details</h4>
+                <button type="button" class="close btn btn-outline-primary" data-dismiss="modal"><i class="ti ti-x"></i></button>
+            </div>
+             <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <h5 class="card-title fw-semibold mb-4">Profile Photo</h5>
+                  <div class="card">
+                    <img src="{{ customer.profile_photo.url}}" class="card-img-top" alt="...">
+                    
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="card-title fw-semibold mb-4">ID Proof</h5>
+                  <div class="card">
+                    <img src="{{ customer.id_proof.url}}" class="card-img-top" alt="...">
+                    
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row">
+                  <div class="col-sm-4"></div>
+                  <div class="col-sm-8">
+                      {% if customer.status == "Active" %}
+                          <form method="POST" action="{% url 'customer_status' %}">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-primary">DEACTIVATE</button>
+                              <input type="hidden" value="Inactive" name="status" id="status"/>
+                              <input type="hidden" value="{{ customer.customer_id }}" name="customer_id" id="customer_id"/>
+                            </form>
+
+                      {% else %}
+                            <form method="POST" action="{% url 'customer_status' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">ACTIVATE</button>
+                                <input type="hidden" value="Active" name="status" id="status"/>
+                                <input type="hidden" value="{{ customer.customer_id }}" name="customer_id" id="customer_id"/>
+                              </form>
+                      {% endif %}
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Your custom script to trigger the modal -->
+<script>
+    // Wait for the document to be ready
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the modal element
+        var myModal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var myModalBtn = document.getElementById("myModalBtn");
+
+        // When the user clicks the button, open the modal
+        myModalBtn.addEventListener("click", function() {
+            myModal.style.display = "block";
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.addEventListener("click", function(event) {
+            if (event.target == myModal) {
+                myModal.style.display = "none";
+            }
+        });
+
+        // When the user clicks the close button, close the modal
+        var closeModalBtn = document.querySelector(".modal-header .close");
+        closeModalBtn.addEventListener("click", function() {
+            myModal.style.display = "none";
+        });
+
+        // When the user presses the Escape key, close the modal
+        window.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                myModal.style.display = "none";
+            }
+        });
+    });
+</script>
+  <!-- Button to trigger the modal -->
+
+                    </div>
+                    
+                  </div>  
+    </div>
+  </div>
+</div>
+
+{% endblock %}

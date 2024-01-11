@@ -1,0 +1,50 @@
+{% extends 'sitevisitor/base.html' %}
+{% block title %}
+MovieMarvel
+{% endblock %}
+{% block content %}
+{% load static %}
+
+<header class="site-header d-flex flex-column justify-content-center align-items-center"
+        xmlns="http://www.w3.org/1999/html">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="theater" style="margin-top:10%;">
+                            <h1>Theater Seating</h1>
+                            <div class="row">
+                                 <form id="seatForm" method="post" action="{% url 'sitevisitor:movie_booking' screen_name=screen_name %}">
+                                        {% csrf_token %}
+                                {% for seatname in seat_capacity %}
+                                     {% if seatname not in booked_seats %}
+                                        <div class="chair" id="{{ seatname }}" onclick="selectSeat(this)"><img src="{% static 'sitevisitor/images/seat.png' %}" width="40" height="30">{{ seatname  }}</div>
+                                     {% else %}
+<!--                                        <div class="chair booked" id="{{ seatname  }}">{{ seatname  }}</div>-->
+                                     <div class="chair booked" id="{{ seatname }}" onclick="selectSeat(this)"><img src="{% static 'sitevisitor/images/seat.png' %}" width="40" height="30">{{ seatname  }}</div>
+                                     {% endif %}
+                                     <input type="hidden" name="selected_seats" id="selectedSeat_{{ seatname }}" value="">
+                                {% endfor %}
+                                     <br>
+
+                                     <button class="btn btn-primary" type="submit">Submit</button>
+                                     </form>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+</header>
+
+ <script>
+        function selectSeat(seatElement) {
+            seatElement.classList.toggle('selected');
+
+             var seatName = seatElement.textContent;
+
+            var hiddenInput = document.getElementById('selectedSeat_' + seatName);
+            hiddenInput.value = seatElement.classList.contains('selected') ? seatName : '';
+        }
+ </script>
+{% endblock %}

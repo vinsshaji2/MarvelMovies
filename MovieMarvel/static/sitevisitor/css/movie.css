@@ -1,0 +1,29 @@
+/* Your custom stylesheet */
+
+.movie-posters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 100px;
+}
+
+.movie-poster {
+    text-align: center;
+}
+
+.movie-poster img {
+    max-width: 100%;
+
+    height: 300px;;
+    display: block;
+    margin: 0 auto;
+}
+
+.movie-name {
+    margin-top: 10px;
+    color: black;
+}
+
+
+

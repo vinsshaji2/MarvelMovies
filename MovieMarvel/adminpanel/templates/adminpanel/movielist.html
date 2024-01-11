@@ -1,0 +1,67 @@
+    {% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add New
+Movie {% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">MovieList</h4>
+    <p class="card-description">View movies and its details</p>
+    <div class="template-demo">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Movie Name</th>
+            <th>Director</th>
+            <th>Release Date</th>
+            <th colspan="2" class="text-center"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for movie in movies %}
+          <tr>
+            <td>{{movie.movie_id}}</td>
+            <td>{{movie.movie_name}}</td>
+            <td>{{movie.director}}</td>
+            <td>{{movie.release_date}}</td>
+            <td>
+               <form method="POST" action="{% url 'edit_movie'%}">
+                      {% csrf_token %}
+                      <input
+                        type="hidden"
+                        value="{{ movie.movie_id }}"
+                        name="movie_id"
+                        id="movie_id"
+                      />
+                      <button
+                        type="submit"
+                        class="btn btn-success"
+                      >
+                        EDIT
+                      </button>
+                    </form>
+                    </td>
+                  <td>                  
+                    <form method="POST" action="{% url 'delete_movie' %}">
+                      {% csrf_token %}
+                      <input
+                        type="hidden"
+                        value="{{ movie.movie_id }}"
+                        name="movie_id"
+                        id="movie_id"
+                      />
+                      <button
+                        type="submit"
+                        class="btn btn-danger"
+                      >
+                       DELETE
+                      </button>
+                    </form>                  
+                  </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

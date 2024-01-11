@@ -1,0 +1,86 @@
+{% extends 'sitevisitor/base.html' %}
+{% block title %}MovieMarvel | Customer Registration {% endblock %}
+{% block content %}
+
+
+
+ <header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-5 col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'sitevisitor:home' %}">Homepage</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">Customer Registration</li>
+                                </ol>
+                            </nav>
+
+                            <h3 class="text-white">Customer Registration Form</h3>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+<!--<section class="section-padding section-bg">-->
+    <div class="container_1 section-bg" style="padding:0 20px;">
+        <div class="row">
+
+            <div class="col-lg-12 col-12">
+                <h3 class="mb-4 pb-2">We'd love to have you here</h3>
+            </div>
+
+            <div class="col-lg-6 col-12">
+                <form method="post" action="{% url 'sitevisitor:customer_registration'%}" enctype="multipart/form-data" class="custom-form contact-form" role="form" style="margin-top:-10%;">
+                    {% csrf_token %}
+                    <div class="row">
+
+                        {% for field in form %}
+                            <div class="col-md-6">
+                                {{ field.label_tag }}  {{ field }}{% if field.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in field.errors %}
+<!--                                            <li>{{ error }}</li>-->
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        {% if form and form1 %}
+                            <div class="label-container" style="position:absolute; top:82%; padding:0 200px;" id="label-container">
+                                <label class="profile-label" style="padding:0 200px;">Profile Photo:</label>
+                                <label class="pan-card-label" style="padding:0 10px;">Pan Card Photo</label>
+                            </div>
+                        {% endif %}
+
+                        {% for field in form1 %}
+                            <div class="col-md-6">
+                                {{ field.label_tag }}  {{ field }}{% if field.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in field.errors %}
+<!--                                            <li>{{ error }}</li>-->
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="col-12 g-3">
+                            <button type="submit" class="btn btn-primary w-100 py-3">Register</button><br><br>
+
+
+                        </div>
+                    </div>
+                </form>
+                <a href="{% url 'sitevisitor:login' %}" style="margin-left:180px;">I already have account</a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

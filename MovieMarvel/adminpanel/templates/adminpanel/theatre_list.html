@@ -1,0 +1,211 @@
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Theatre List and Details
+{% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Theatre List</h4>
+    <p class="card-description">Theatres and its details</p>
+    <div class="template-demo">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">All</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="active-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Active</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="inactive-tab" data-bs-toggle="tab" data-bs-target="#inactive" type="button" role="tab" aria-controls="inactive" aria-selected="false">Inactive</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+    <div class="table-responsive-sm"> 
+    <table class="table table-hover ">
+  
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">State</th>
+      <th scope="col">Place</th>
+      <th scope="col">Status</th>
+      <th scope="col"></th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    {% if theatres %}
+    {% for theatre in theatres %}
+    <tr>
+      <th scope="row">{{ theatre.theatre_id }}</th>
+      <td>{{theatre.user.first_name}}&nbsp;{{theatre.user.last_name}}</td>
+      <td>{{theatre.user.email}}</td>
+      <td>{{theatre.phone}}</td>
+      <td>{{theatre.address}}</td>
+      <td>{{theatre.state}}</td>
+      <td>{{theatre.place}}</td>
+      {% if theatre.status == 'Active' %}
+        <td><label class="bg bg-success-subtle">{{theatre.status}}</label></td>
+      {% else %}
+        <td><label class="bg bg-danger-subtle">{{theatre.status}}</label></td>
+      {% endif %}
+      <td> <div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+   Action
+  </button>
+  <ul class="dropdown-menu">
+    
+    <li><form method="POST" action="{% url 'theatre_details' %}">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Details</button>        
+        <input type="hidden" value="{{ theatre.theatre_id }}" name="theatre_id" id="theatre_id"/>
+      </form></li>
+   
+  </ul>
+</div></td>
+    </tr>
+    {% endfor %}
+    {% else %}
+      <tr>
+        <th scope="row" colspan="9" class="text-center"><p>No records to display</p></th>
+      </tr>
+      {% endif %}
+   
+  </tbody>
+</table></div>
+</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> 
+    <div class="table-responsive-sm"> 
+      <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">State</th>
+      <th scope="col">Place</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {%if active_theatres %}
+    {% for theatre in active_theatres %}
+    <tr>
+      <th scope="row">{{ theatre.theatre_id }}</th>
+      <td>{{theatre.user.first_name}}&nbsp;{{theatre.user.last_name}}</td>
+      <td>{{theatre.user.email}}</td>
+      <td>{{theatre.phone}}</td>
+      <td>{{theatre.address}}</td>
+      <td>{{theatre.state}}</td>
+      <td>{{theatre.place}}</td>    
+      
+      <td>
+         <div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+   Action
+  </button>
+  <ul class="dropdown-menu">
+    
+    <li><form method="POST" action="{% url 'theatre_details' %}">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Details</button>        
+        <input type="hidden" value="{{ theatre.theatre_id }}" name="theatre_id" id="theatre_id"/>
+      </form></li>
+    <li>
+      <!-- Your form goes here -->
+      <form method="POST" action="{% url 'theatre_status' %}">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Deactivate</button>
+        <input type="hidden" value="Inactive" name="status" id="status"/>
+        <input type="hidden" value="{{ theatre.theatre_id }}" name="theatre_id" id="theatre_id"/>
+      </form>
+    </li>
+  </ul>
+</div>
+      </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+      <tr>
+        <th scope="row" colspan="9" class="text-center"><p>No records to display</p></th>
+      </tr>
+      {% endif %}
+   
+  </tbody>
+</table></div>
+   
+</div>
+  <div class="tab-pane fade" id="inactive" role="tabpanel" aria-labelledby="inactive-tab"> 
+    <div class="table-responsive-sm"> 
+    <table class="table" >
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">State</th>
+      <th scope="col">Place</th>     
+      <th scope="col"></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% if inactive_theatres %}
+    {% for theatre in inactive_theatres %}
+    <tr>
+      <th scope="row">{{ theatre.theatre_id }}</th>
+      <td>{{theatre.user.first_name}}&nbsp;{{theatre.user.last_name}}</td>
+      <td>{{theatre.user.email}}</td>
+      <td>{{theatre.phone}}</td>
+      <td>{{theatre.address}}</td>
+      <td>{{theatre.state}}</td>
+      <td>{{theatre.place}}</td>     
+      
+      <td>
+        <div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+   Action
+  </button>
+  <ul class="dropdown-menu">
+    
+    <li><form method="POST" action="{% url 'theatre_details' %}">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Details</button>        
+        <input type="hidden" value="{{ theatre.theatre_id }}" name="theatre_id" id="theatre_id"/>
+      </form></li>
+    <li>
+      <!-- Your form goes here -->
+      <form method="POST" action="{% url 'theatre_status' %}">
+        {% csrf_token %}
+        <button type="submit" class="dropdown-item">Activate</button>
+        <input type="hidden" value="Active" name="status" id="status"/>
+        <input type="hidden" value="{{ theatre.theatre_id }}" name="theatre_id" id="theatre_id"/>
+      </form>
+    </li>
+  </ul>
+</div>
+
+  </td>
+      
+    </tr>
+    {% endfor %}
+    {% else %}
+      <tr>
+        <th scope="row" colspan="9" class="text-center"><p>No records to display</p></th>
+      </tr>
+      {% endif %}
+   
+  </tbody>
+</table></div></div>
+</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

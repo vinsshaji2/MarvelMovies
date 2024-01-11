@@ -1,0 +1,54 @@
+{% extends 'adminpanel/base.html' %} {% block title %}MovieMarvel | Add New
+Movie {% endblock %} {% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Edit Movie Details</h4>
+    <p class="card-description">Edit movie and its details</p>
+    <div class="template-demo">
+      <form
+        method="post"
+        action="{% url 'edit_movie'%}"
+        enctype="multipart/form-data"
+        class="custom-form contact-form"
+        role="form"
+      >
+        {% csrf_token %}
+        <div class="row">
+          {% for field in form %}
+          {% if field.name == 'description' %}
+          <div class="col-md-12">
+            {{ field.label_tag }} {{ field }}{% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% else %}
+          <div class="col-md-6">
+            {{ field.label_tag }} {{ field }}{% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% endfor %}
+
+          <div class="col-12 g-3">
+            <input type="hidden" name="movie_id" value="{{movie.movie_id}}">
+            <button type="submit" class="btn btn-primary w-100 py-3">
+              Update Details
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
